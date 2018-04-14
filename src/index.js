@@ -2,27 +2,33 @@ export default class PowerQuery {
 
 	/**
 	 * 
-	 * @param {Document} document 
+	 * @param {Window} window
 	 */
-	constructor(document) {
-		if (document == null) {
-			let error = new Error('The document argument is null');
-			error.name = 'NullHTMLDocumentError';
+	constructor(window) {
+		if (window == null) {
+			let error = new Error('The Window argument is null');
+			error.name = 'NullWindowError';
 			throw error;
 		}
 
-		let type = typeof document;
-	
-		if (type == 'object') {
-			let error = new Error('The document argument passed is not an object');
+		let type = typeof window;
+		if (type !== 'object') {
+			let error = new Error('The window argument passed is not a Window Object');
 			error.name = 'IllegalTypeError';
 			throw error;
 		}
 
-		this.document = document;
+		if (!window.document) {
+			let error = new Error('The window argument passed does not have a document');
+			error.name = 'InvalidWindowError';
+			throw error;
+		}
+
+		this.window = window;
+		this.document = window.document;
 	}
 
-	getNode(selector) {
-
+	query(selector) {
+		return Array.from(this.document.querySelectorAll(selector));
 	}
 }

@@ -8,7 +8,7 @@ describe('PowerQuery Suite', () => {
 			try {
 				let x = new PowerQuery(null);
 			} catch(e) {
-				return expect(e.name).to.equal('NullHTMLDocumentError');
+				return expect(e.name).to.equal('NullWindowError');
 			}
 			expect('Error To Be Thrown').to.equal(true);
 		});
@@ -22,9 +22,21 @@ describe('PowerQuery Suite', () => {
 			expect('Error To Be Thrown').to.equal(true);
 		});
 
-		if ('Should Instantiate a PowerQuery Object', () => {
-			let x = new PowerQuery(D);
-			console.log(x);
+		it('Should Throw An InvalidWindowError', () => {
+			try {
+				let x = new PowerQuery({});
+			} catch(e) {
+				return expect(e.name).to.equal('InvalidWindowError');
+			}
+			expect('Error To Be Thrown').to.equal(true);
+		});
+
+		it('Should Instantiate a PowerQuery Object', () => {
+			let x = new PowerQuery(DOM);
 		});
 	});
+
+	describe('Query Suite', () => {
+		let x = new PowerQuery(DOM);
+	})
 });
