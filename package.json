@@ -1,0 +1,25 @@
+{
+  "name": "powerquery",
+  "version": "1.0.0",
+  "description": "A simple dom query and event handler",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "mocha --compilers js:babel-core/register"
+  },
+  "keywords": [
+    "PowerQuery",
+    "DOM"
+  ],
+  "author": "Evan Coulson",
+  "license": "MIT",
+  "dependencies": {
+    "jsdom": "^11.7.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1"
+  }
+}
