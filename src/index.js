@@ -1,4 +1,4 @@
-export default class PowerQuery {
+export default class PowerDOM {
 
 	/**
 	 * 
@@ -26,9 +26,72 @@ export default class PowerQuery {
 
 		this.window = window;
 		this.document = window.document;
+		this.cache = new QueryCache();
+		this.eventListener = new EventListener();
 	}
 
+	/**
+	 * 
+	 * @param {String} selector 
+	 */
 	query(selector) {
-		return Array.from(this.document.querySelectorAll(selector));
+		let nodes;
+		if (this.cache.contains(selector)) {
+			nodes = this.cache.get(selector);
+		} else {
+			nodes = Array.from(this.document.querySelectorAll(selector));
+			this.cache.store(selector, nodes);
+		}
+
+		if (nodes.length == 0) {
+			return null;
+		}
+		return nodes;
+	}
+
+	addListener(selector, event, listener) {
+		let nodes = this.query(selector);
+		this.eventListener.on(nodes, event, listener)
+	}
+}
+
+class EventListener {
+	constructor() {
+		this.listenerLists = new LinkedList();
+	}
+
+	on(nodes, event, listener) {
+
+	}
+}
+
+class LinkedList {
+	constructor() {
+		this.front = new ListNode();
+	}
+}
+
+class ListNode {
+	constructor(node) {
+		this.node = node;
+		this.eventTable = {}
+	}
+}
+
+class QueryCache {
+	constructor() {
+		this.table = {};
+	}
+
+	store(selector, nodes) {
+		this.table[selector] = nodes;
+	}
+
+	contains(selector) {
+		return this.table.hasOwnProperty(selector);
+	}
+
+	get(selector) {
+		return this.table[selector];
 	}
 }
