@@ -59,4 +59,8 @@ describe('PowerDOM', () => {
 			expect(nodes[0].tagName.toLowerCase()).to.equal('div');
 		})
 	});
+
+	describe('Add Listener Suite', () => {
+		
+	})
 });

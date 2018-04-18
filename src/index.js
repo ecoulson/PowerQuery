@@ -27,7 +27,6 @@ export default class PowerDOM {
 		this.window = window;
 		this.document = window.document;
 		this.cache = new QueryCache();
-		this.eventListener = new EventListener();
 	}
 
 	/**
@@ -39,7 +38,7 @@ export default class PowerDOM {
 		if (this.cache.contains(selector)) {
 			nodes = this.cache.get(selector);
 		} else {
-			nodes = Array.from(this.document.querySelectorAll(selector));
+			nodes = this.document.querySelectorAll(selector);
 			this.cache.store(selector, nodes);
 		}
 
@@ -51,47 +50,26 @@ export default class PowerDOM {
 
 	addListener(selector, event, listener) {
 		let nodes = this.query(selector);
-		this.eventListener.on(nodes, event, listener)
-	}
-}
-
-class EventListener {
-	constructor() {
-		this.listenerLists = new LinkedList();
-	}
-
-	on(nodes, event, listener) {
-
-	}
-}
-
-class LinkedList {
-	constructor() {
-		this.front = new ListNode();
-	}
-}
-
-class ListNode {
-	constructor(node) {
-		this.node = node;
-		this.eventTable = {}
+		for (let i = 0; i < nodes.length; i++) {
+			nodes[i].addEventListener(event, listener);
+		}
 	}
 }
 
 class QueryCache {
 	constructor() {
-		this.table = {};
+		this.table = new Map();
 	}
 
 	store(selector, nodes) {
-		this.table[selector] = nodes;
+		this.table.set(selector, nodes);
 	}
 
 	contains(selector) {
-		return this.table.hasOwnProperty(selector);
+		return this.table.has(selector);
 	}
 
 	get(selector) {
-		return this.table[selector];
+		return this.table.get(selector);
 	}
 }
